@@ -1,9 +1,16 @@
 const CustomError = require("../extensions/custom-error");
 
 module.exports = function createDreamTeam(members) {
-  return members.sort().reduce((name, member) => {
-    if (typeof member !== "string") return name;
-    
-    return name += member.charAt(0).toUpperCase();
+  if (!Array.isArray(members)) return false;
+
+  let membersSorted = members.map((member) => {
+    if (typeof member === "string") {
+      return member.trim().toUpperCase();
+    }
+  }).sort();
+
+  return membersSorted.reduce((name, member) => {
+    if (typeof member === "undefined") return name;
+    return name += member.charAt(0);
   }, '');
 };
