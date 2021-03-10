@@ -14,9 +14,9 @@ module.exports = function transform(arr) {
           result.splice(-1);
           break;
         }
-        
+
         var ctrlDiscardNextIndex = result.indexOf(ctrlDiscardNext);
-        result.splice(ctrlDiscardNextIndex, 2);
+        result.splice(ctrlDiscardNextIndex, 2, undefined);
         break;
 
       case ctrlDoubleNext: 
@@ -24,7 +24,7 @@ module.exports = function transform(arr) {
           result.splice(-1);
           break;
         }
-        
+
         var ctrlDoubleNextIndex = result.indexOf(ctrlDoubleNext);
         result.splice(ctrlDoubleNextIndex, 1, result[ctrlDoubleNextIndex + 1]);
         break;
@@ -34,9 +34,9 @@ module.exports = function transform(arr) {
           result.splice(0, 1);
           break;
         }
-        
+
         var ctrlDiscardPrevIndex = result.indexOf(ctrlDiscardPrev);
-        result.splice(ctrlDiscardPrevIndex - 1, 2);
+        result.splice(ctrlDiscardPrevIndex - 1, 2, undefined);
         break;
 
       case ctrlDoublePrev:
@@ -44,12 +44,14 @@ module.exports = function transform(arr) {
           result.splice(0, 1);
           break;
         }
-        
+
         var ctrlDoublePrevIndex = result.indexOf(ctrlDoublePrev);
         result.splice(ctrlDoublePrevIndex, 1, result[ctrlDoublePrevIndex - 1]);
         break;
     }
   });
 
-  return result;
+  return result.filter((element) => {
+    return element !== undefined;
+  });
 };
